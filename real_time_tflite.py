@@ -41,7 +41,7 @@ block_len = 512
 block_shift = 256
 
 # load models
-interpreter = tflite.Interpreter(model_path='pretrained_weights/DPCRN_base/dpcrn.tflite')
+interpreter = tflite.Interpreter(model_path='pretrained_weights/DPCRN_base/dpcrn_quant.tflite')
 interpreter.allocate_tensors()
 #
 # # Get input and output tensors.

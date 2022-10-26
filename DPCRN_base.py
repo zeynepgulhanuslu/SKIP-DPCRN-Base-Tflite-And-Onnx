@@ -464,11 +464,11 @@ class DPCRN_model(Loss, Signal_Pro):
 
         # convert model
         converter = tf.lite.TFLiteConverter.from_keras_model(model_1)
+        # converter.optimizations = ["DEFAULT"]
         if use_dynamic_range_quant:
-            # converter.optimizations = [tf.lite.Optimize.DEFAULT]
-            converter.optimizations = ["DEFAULT"]
+            converter.optimizations = [tf.lite.Optimize.DEFAULT]
         tflite_model = converter.convert()
-        with tf.io.gfile.GFile(target_folder + 'dpcrn.tflite', 'wb') as f:
+        with tf.io.gfile.GFile(target_folder + 'dpcrn_quant.tflite', 'wb') as f:
             f.write(tflite_model)
         pass
 
