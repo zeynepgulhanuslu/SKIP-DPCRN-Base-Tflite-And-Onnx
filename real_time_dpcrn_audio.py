@@ -88,7 +88,7 @@ def callback(indata, outdata, status):
     output_sin = interpreter.get_tensor(output_details[2]['index'])
     states_gru = interpreter.get_tensor(output_details[3]['index'])
     # calculate the ifft
-    estimated_complex = spec = spec * output_mask * (output_cos + 1j*output_sin)
+    estimated_complex = spec * output_mask * (output_cos + 1j*output_sin)
     estimated_block = np.fft.irfft(estimated_complex)
     out_block = estimated_block * win
     # write to buffer
