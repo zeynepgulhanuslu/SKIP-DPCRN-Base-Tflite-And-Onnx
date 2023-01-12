@@ -281,10 +281,3 @@ class data_generator():
 
             yield [batch_noisy, batch_gain], batch_clean
 
-
-if __name__ == '__main__':
-    dg = data_generator(noise_dir='D:/zeynep/data/noise-cancelling/dpcrn-data/noise',
-                        train_clean='D:/zeynep/data/noise-cancelling/dpcrn-data/clean/train/',
-                        val_clean='D:/zeynep/data/noise-cancelling/dpcrn-data/clean/val',
-                        RIR_dir=None,
-                        temp_data_dir='D:/zeynep/data/noise-cancelling/dpcrn-data/noisy-data')
