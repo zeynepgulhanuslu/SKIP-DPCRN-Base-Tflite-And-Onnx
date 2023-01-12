@@ -5,25 +5,21 @@ Created on Fri Nov 20 22:16:58 2020
 @author: Xiaohuai Le
 """
 import os
+from random import seed
 
-import keras2onnx
-import onnxmltools
+import librosa
+import numpy as np
+import soundfile as sf
 import tensorflow as tf
 import tensorflow.keras as keras
-from tensorflow.keras import backend as K
-from tensorflow.keras.models import Model
+import tf2onnx
 from tensorflow.keras.layers import Activation, Lambda, Input, LayerNormalization, Conv2D, BatchNormalization, \
     Conv2DTranspose, Concatenate, PReLU
-
-import soundfile as sf
-from random import seed
-import numpy as np
-import librosa
+from tensorflow.keras.models import Model
 
 from loss import Loss
-from signal_processing import Signal_Pro
-
 from networks.modules import DprnnBlock
+from signal_processing import Signal_Pro
 
 seed(42)
 np.random.seed(42)
@@ -598,9 +594,11 @@ class DPCRN_model(Loss, Signal_Pro):
         weights = self.model.get_weights()
         model_1.set_weights(weights)
 
-        onnx_model = onnxmltools.convert_keras(model_1, target_opset=10)
         temp_model_file = target_folder + 'dpcrn.onnx'
-        keras2onnx.save_model(onnx_model, temp_model_file)
+        # keras2onnx.save_model(onnx_model, temp_model_file)
+        (onnx_model_proto, storage) = tf2onnx.convert.from_keras(model_1)
+        with open(temp_model_file, "wb") as f:
+            f.write(onnx_model_proto.SerializeToString())
 
         pass
 
