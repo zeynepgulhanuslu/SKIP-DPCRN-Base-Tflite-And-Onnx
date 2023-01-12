@@ -21,7 +21,7 @@ network:
     activation:  softplus # or sigmoid
     input_norm: batchnorm  # or instantlayernorm
 test:
-    test_data_dir: 'D:/zeynep/data/noise-cancelling/audio-samples/real-recordings/noisy'
+    test_data_dir: '/ORTAK/zeynep/data/noisy/'
 stft:
     fs: 16000
     block_len: 512

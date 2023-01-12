@@ -1,0 +1,6 @@
+tensorflow==2.7.0
+tf2onx==1.13.0
+onnxruntime==1.13.1
+soundfile==0.10.3
+librosa==0.8.1
+tflite_runtime
