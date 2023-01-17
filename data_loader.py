@@ -239,15 +239,18 @@ class data_generator():
                 Begin_N = int(np.random.uniform(0, 30 - self.length_per_sample)) * self.fs
                 # read clean speech and noises
                 clean_s = np.load(clean_f) / 32768.0
+                print(f'noise file: {noise_f}, clean file: {clean_f}')
+
                 noise_s = \
                     sf.read(os.path.join(self.noise_dir, noise_f), dtype='float32', start=Begin_N,
                             stop=Begin_N + self.L)[0]
-
                 # high pass filtering
                 clean_s = add_pyreverb(clean_s, fir)
                 # spectrum augmentation
+
                 if np.random.rand() < self.spec_aug_rate:
                     clean_s = spec_augment(clean_s)
+                print(f'clean shape: {clean_s.shape}, noise shape: {noise_s.shape}')
                 # add reverberation
                 if self.add_reverb:
                     if np.random.rand() < self.reverb_rate:
