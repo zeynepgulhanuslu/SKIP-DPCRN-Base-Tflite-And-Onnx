@@ -126,12 +126,12 @@ class data_generator():
         self.val_clean = val_clean
         self.RIR_dir = RIR_dir
 
-        self.noise_file_list = os.listdir(self.noise_dir)
         noise_list = []
         for f in os.listdir(self.noise_dir):
             noise_f = sf.read(os.path.join(self.noise_dir, f), dtype='float32', start=0, stop=0 + self.L)[0]
             if noise_f.shape[0] != 0:
                 noise_list.append(f)
+        self.noise_file_list = noise_list
         if not os.path.exists(temp_data_dir):
             self.train_dir, self.valid_dir = self.preproccess(temp_data_dir)
         else:
