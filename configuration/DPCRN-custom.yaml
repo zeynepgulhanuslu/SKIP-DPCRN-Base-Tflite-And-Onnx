@@ -32,8 +32,7 @@ database:
     noise_dir: '/ORTAK/zeynep/data/bipmeet-nc/sau-fsd-250k-v1/train/noise' # the path of the noise data
     train_clean: '/ORTAK/zeynep/data/bipmeet-nc/sau-fsd-250k-v1/train/clean' # the path contain clean train audio files
     val_clean: '/ORTAK/zeynep/data/bipmeet-nc/sau-fsd-250k-v1/val/clean' # the path contain clean val audio files
-    #RIRs_path: '/ORTAK/zeynep/data/RIRS_NOISES/' # the path of the RIR data
-    RIRs_path:
+    RIRs_path: '/ORTAK/zeynep/data/RIRS_NOISES/' # the path of the RIR data
     SNR: [0,20]
     reverb_rate: 0.5
     spec_aug_rate: 0.3
