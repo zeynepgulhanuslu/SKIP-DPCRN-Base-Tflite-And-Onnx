@@ -57,7 +57,7 @@ class Trainer():
                                                  n_hop=self.config_dict['stft']['block_shift'],
                                                  batch_size=self.batch_size,
                                                  sd=self.config_dict['trainer']['seed'],
-                                                 add_reverb=True,
+                                                 add_reverb=False,
                                                  reverb_rate=self.config_dict['database']['reverb_rate'],
                                                  spec_aug_rate=self.config_dict['database']['spec_aug_rate'])
 

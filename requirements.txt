@@ -2,5 +2,7 @@ tensorflow==2.7.0
 tf2onnx==1.13.0
 onnxruntime==1.13.1
 soundfile
+yaml
+tqdm
 librosa==0.8.1
 tflite_runtime
