@@ -129,7 +129,7 @@ class data_generator():
         self.noise_file_list = os.listdir(self.noise_dir)
         noise_list = []
         for f in os.listdir(self.noise_dir):
-            noise_f = sf.read(f, dtype='float32', start=0, stop=0 + self.L)[0]
+            noise_f = sf.read(os.path.join(self.noise_dir, f), dtype='float32', start=0, stop=0 + self.L)[0]
             if noise_f.shape[0] != 0:
                 noise_list.append(f)
         if not os.path.exists(temp_data_dir):
@@ -288,4 +288,3 @@ class data_generator():
                 N_batch = len(train_data) // batch_size
 
             yield [batch_noisy, batch_gain], batch_clean
-
