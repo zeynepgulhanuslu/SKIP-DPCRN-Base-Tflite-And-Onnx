@@ -129,8 +129,10 @@ class data_generator():
         noise_list = []
         for f in os.listdir(self.noise_dir):
             noise_f = sf.read(os.path.join(self.noise_dir, f), dtype='float32', start=0, stop=0 + self.L)[0]
-            if noise_f.shape[0] != 0:
+            if not noise_f.shape[0] == 0:
+                print(f'noise {f}, shape: {noise_f.shape}')
                 noise_list.append(f)
+
         self.noise_file_list = noise_list
         if not os.path.exists(temp_data_dir):
             self.train_dir, self.valid_dir = self.preproccess(temp_data_dir)
