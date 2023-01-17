@@ -130,8 +130,9 @@ class data_generator():
         for f in os.listdir(self.noise_dir):
             noise_f = sf.read(os.path.join(self.noise_dir, f), dtype='float32', start=0, stop=0 + self.L)[0]
             if not noise_f.shape[0] == 0:
-                print(f'noise {f}, shape: {noise_f.shape}')
                 noise_list.append(f)
+            else:
+                print(f'noise {f}, shape: {noise_f.shape}')
 
         self.noise_file_list = noise_list
         if not os.path.exists(temp_data_dir):
@@ -243,7 +244,8 @@ class data_generator():
                 clean_f = train_data[sample_num]
 
                 noise_f = noise_f_list[i]
-                Begin_N = int(np.random.uniform(0, 30 - self.length_per_sample)) * self.fs
+                # Begin_N = int(np.random.uniform(0, 30 - self.length_per_sample)) * self.fs
+                Begin_N = 0
                 # read clean speech and noises
                 clean_s = np.load(clean_f) / 32768.0
                 print(f'noise file: {noise_f}, clean file: {clean_f}')
