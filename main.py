@@ -16,6 +16,7 @@ from data_loader import data_generator
 from tensorflow.python.framework.ops import disable_eager_execution
 
 disable_eager_execution()
+tf.compat.v1.experimental.output_all_intermediates(True)
 
 
 class Trainer():
