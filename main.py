@@ -13,6 +13,10 @@ from DPCRN_base import DPCRN_model
 from DPCRN_skip import DPCRN_skip_model
 from data_loader import data_generator
 
+from tensorflow.python.framework.ops import disable_eager_execution
+
+disable_eager_execution()
+
 
 class Trainer():
 
