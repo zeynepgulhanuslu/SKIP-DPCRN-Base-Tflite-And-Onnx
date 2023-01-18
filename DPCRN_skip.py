@@ -277,7 +277,8 @@ class DPCRN_skip_model(Loss, Signal_Pro):
         # use the Adam optimizer with a clipnorm of 3
         optimizerAdam = keras.optimizers.Adam(lr=self.lr, clipnorm=3.0)
         # compile model with loss function
-        self.model.compile(loss=self.lossWrapper(), optimizer=optimizerAdam, metrics=self.metricsWrapper())
+        self.model.compile(loss=self.lossWrapper(), optimizer=optimizerAdam, metrics=self.metricsWrapper(),
+                           run_eagerly=False)
 
     def enhancement(self, noisy_f, output_f='./enhance_s.wav', plot=True, gain=1, gamma=1, vad=None):
         '''
