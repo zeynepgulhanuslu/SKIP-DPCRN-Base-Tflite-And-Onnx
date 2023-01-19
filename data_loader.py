@@ -87,8 +87,7 @@ class data_generator():
                  sd=42,
                  add_reverb=True,
                  reverb_rate=0.5,
-                 spec_aug_rate=0.3,
-                 ):
+                 spec_aug_rate=0.3):
         '''
         keras data generator
         Para.:
@@ -279,8 +278,8 @@ class data_generator():
             if batch_num == N_batch:
                 batch_num = 0
 
-                if self.use_cross_valid:
-                    self.train_list, self.validation_list = self.generating_train_validation(self.train_length)
+                #if self.use_cross_valid:
+                #    self.train_list, self.validation_list = self.generating_train_validation(self.train_length)
                 if validation:
                     train_data = self.valid_data
                 else:

@@ -112,14 +112,16 @@ class Trainer():
         )
 
         # create data generator for training data
-        self.dpcrn_model.model.fit_generator(data_generator.generator(batch_size=self.batch_size, validation=False),
-                                             validation_data=data_generator.generator(batch_size=self.batch_size,
-                                                                                      validation=True),
-                                             epochs=self.max_epochs,
-                                             steps_per_epoch=data_generator.train_length // self.batch_size,
-                                             validation_steps=self.batch_size,
-                                             # use_multiprocessing=True,
-                                             callbacks=[checkpointer, reduce_lr, csv_logger, early_stopping])
+
+        self.dpcrn_model.model.fit(x=data_generator.generator(batch_size=self.batch_size, validation=False),
+                                   validation_data=data_generator.generator(batch_size=self.batch_size,
+                                                                            validation=True),
+                                   steps_per_epoch=data_generator.train_length // self.batch_size,
+                                   epochs=self.max_epochs,
+                                   validation_steps=self.batch_size,
+                                   # use_multiprocessing=True,
+                                   callbacks=[checkpointer, reduce_lr, csv_logger, early_stopping]
+                                   )
         # clear out garbage
         tf.keras.backend.clear_session()
 
