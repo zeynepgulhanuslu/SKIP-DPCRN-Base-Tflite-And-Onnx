@@ -103,7 +103,7 @@ class Trainer():
         # create model check pointer to save the best model
 
         checkpointer = ModelCheckpoint(
-            savePath + runName + 'model_{epoch:02d}_{val_loss:02f}_{val_sisnr_metrics:02f}.h5',
+            savePath + runName + 'model_{epoch:02d}_{val_loss:02f}.h5',
             monitor='val_loss',
             save_best_only=False,
             save_weights_only=True,
