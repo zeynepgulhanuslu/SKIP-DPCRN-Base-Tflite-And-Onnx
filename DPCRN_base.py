@@ -20,7 +20,7 @@ from tensorflow.keras.models import Model
 from loss import Loss
 from networks.modules import DprnnBlock
 from signal_processing import Signal_Pro
-import matplotlib.pyplot as plt
+
 seed(42)
 np.random.seed(42)
 
