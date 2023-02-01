@@ -1,4 +1,4 @@
-name: DPCRN-base
+name: DPCRN-skip
 trainer:
     init_lr: 1e-3
     reduce_patience: 10

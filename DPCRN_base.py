@@ -20,7 +20,7 @@ from tensorflow.keras.models import Model
 from loss import Loss
 from networks.modules import DprnnBlock
 from signal_processing import Signal_Pro
-
+import matplotlib.pyplot as plt
 seed(42)
 np.random.seed(42)
 
@@ -272,6 +272,7 @@ class DPCRN_model(Loss, Signal_Pro):
             plt.imshow(np.log(abs(spec_n) + 1e-8), cmap='jet', origin='lower')
             plt.subplot(212)
             plt.imshow(np.log(abs(spec_e) + 1e-8), cmap='jet', origin='lower')
+            plt.show()
         sf.write(output_f, enh_s, 16000)
 
         return noisy_s, enh_s
@@ -279,6 +280,8 @@ class DPCRN_model(Loss, Signal_Pro):
     def test_on_dataset(self, noisy_path, target_path):
         import tqdm
         f_list = os.listdir(noisy_path)
+        if not os.path.exists(target_path):
+            os.mkdir(target_path)
         for f in tqdm.tqdm(f_list):
             self.enhancement(noisy_f=os.path.join(noisy_path, f), output_f=os.path.join(target_path, f), plot=False)
 

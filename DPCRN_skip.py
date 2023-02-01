@@ -339,6 +339,7 @@ class DPCRN_skip_model(Loss, Signal_Pro):
     def test_on_dataset(self, noisy_path, target_path, gamma=1):
         import tqdm
         f_list = os.listdir(noisy_path)
+
         for f in tqdm.tqdm(f_list):
             self.enhancement(noisy_f=os.path.join(noisy_path, f), output_f=os.path.join(target_path, f), plot=False,
                              gamma=1)

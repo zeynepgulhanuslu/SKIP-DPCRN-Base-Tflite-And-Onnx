@@ -23,7 +23,7 @@ if __name__ == '__main__':
                         default='True')
 
     args = parser.parse_args()
-    f = open('./configuration/DPCRN-base.yaml', 'r', encoding='utf-8')
+    f = open('./configuration/DPCRN-custom.yaml', 'r', encoding='utf-8')
     result = f.read()
     print(result)
 
