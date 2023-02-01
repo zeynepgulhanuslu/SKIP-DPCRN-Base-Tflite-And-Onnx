@@ -17,6 +17,7 @@ network:
     DPRNN:
         intra_hidden_size: 128
         inter_hidden_size: 128
+        skip: 1
     use_CuDNNGRU: False
     activation:  softplus # or sigmoid
     input_norm: batchnorm  # or instantlayernorm
