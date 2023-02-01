@@ -56,6 +56,7 @@ class DPCRN_skip_model(Loss, Signal_Pro):
         self.alpha = config['trainer']['alpha']
         # empty property for the model
         self.model = None
+
         # defining default parameters
         self.length_in_s = length_in_s
         self.batch_size = batch_size
@@ -89,6 +90,7 @@ class DPCRN_skip_model(Loss, Signal_Pro):
         def spectrum_loss_SD(s_hat, s, c=0.3, Lam=0.1):
 
             # The complex compressed spectrum MSE loss
+            global intra_update_rates, inter_update_rates
             s = tf.truediv(s, self.batch_gain + 1e-9)
             s_hat = tf.truediv(s_hat, self.batch_gain + 1e-9)
 
@@ -276,6 +278,8 @@ class DPCRN_skip_model(Loss, Signal_Pro):
         '''
         # use the Adam optimizer with a clipnorm of 3
         optimizerAdam = keras.optimizers.Adam(lr=self.lr, clipnorm=3.0)
+        self.model._losses = []
+        self.model._per_input_losses = {}
         # compile model with loss function
         self.model.compile(loss=self.lossWrapper(), optimizer=optimizerAdam, metrics=self.metricsWrapper(),
                            run_eagerly=False)
