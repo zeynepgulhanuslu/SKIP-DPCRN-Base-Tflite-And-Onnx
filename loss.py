@@ -53,4 +53,5 @@ class Loss():
         '''
         MSE-based regularization
         '''
+        print(f'skip regular MSE: {update_gate}, result: {(tf.reduce_mean(update_gate) - miu) ** 2}')
         return (tf.reduce_mean(update_gate) - miu) ** 2

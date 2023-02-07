@@ -7,7 +7,6 @@ Created on Fri Nov 20 22:16:58 2020
 import os
 import tensorflow as tf
 import tensorflow.keras as keras
-from tensorflow.keras import backend as K
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Activation, Lambda, Input, LayerNormalization, Conv2D, BatchNormalization, \
     Conv2DTranspose, Concatenate, PReLU
@@ -122,11 +121,14 @@ class DPCRN_skip_model(Loss, Signal_Pro):
             elif self.loss_type == 'MSE':
                 intra_update_rates = [self.skip_regular_MSE(gate, miu=self.target_rate) for gate in
                                       self.update_gates_intra]
+
                 inter_update_rates = [self.skip_regular_MSE(gate, miu=self.target_rate) for gate in
                                       self.update_gates_inter]
-
+            print(f'inter update rates: {inter_update_rates}, intra update rates: {intra_update_rates}')
             Loss_skip = tf.reduce_sum(intra_update_rates) + tf.reduce_sum(inter_update_rates)
-            return (1 - Lam) * loss_mag + Lam * (loss_imag + loss_real) + Loss_skip * self.alpha
+            total_loss = (1 - Lam) * loss_mag + Lam * (loss_imag + loss_real) + Loss_skip * self.alpha
+            print(f'loss skip: {Loss_skip}, total loss: {total_loss}')
+            return total_loss
 
         return spectrum_loss_SD
 
@@ -156,29 +158,41 @@ class DPCRN_skip_model(Loss, Signal_Pro):
             input_complex_spec = BatchNormalization(axis=[-1, -2], epsilon=self.eps)(input_complex_spec)
         elif self.input_norm == 'instantlayernorm':
             input_complex_spec = LayerNormalization(axis=[-1, -2], epsilon=self.eps)(input_complex_spec)
+        print(f'encoder padding: {self.encoder_padding}')
 
-        conv_1 = Conv2D(self.filter_size[0], self.kernel_size[0], self.strides[0], name=name + '_conv_1',
-                        padding=[[0, 0], [0, 0], self.encoder_padding[0], [0, 0]])(input_complex_spec)
+        # conv_1 = Conv2D(self.filter_size[0], self.kernel_size[0], self.strides[0], name=name + '_conv_1',
+        #                padding=[[0, 0], [0, 0], self.encoder_padding[0], [0, 0]])(input_complex_spec)
+        padded_1 = tf.pad(input_complex_spec, [[0, 0], [0, 0], self.encoder_padding[0], [0, 0]], "CONSTANT")
+        conv_1 = Conv2D(self.filter_size[0], self.kernel_size[0], self.strides[0], name=name + '_conv_1')(padded_1)
         bn_1 = BatchNormalization(name=name + '_bn_1')(conv_1)
         out_1 = PReLU(shared_axes=[1, 2])(bn_1)
 
-        conv_2 = Conv2D(self.filter_size[1], self.kernel_size[1], self.strides[1], name=name + '_conv_2',
-                        padding=[[0, 0], [0, 0], self.encoder_padding[1], [0, 0]])(out_1)
+        # conv_2 = Conv2D(self.filter_size[1], self.kernel_size[1], self.strides[1], name=name + '_conv_2',
+        #                padding=[[0, 0], [0, 0], self.encoder_padding[1], [0, 0]])(out_1)
+        padded_2 = tf.pad(out_1, [[0, 0], [0, 0], self.encoder_padding[1], [0, 0]], "CONSTANT")
+
+        conv_2 = Conv2D(self.filter_size[1], self.kernel_size[1], self.strides[1], name=name + '_conv_2')(padded_2)
         bn_2 = BatchNormalization(name=name + '_bn_2')(conv_2)
         out_2 = PReLU(shared_axes=[1, 2])(bn_2)
 
-        conv_3 = Conv2D(self.filter_size[2], self.kernel_size[2], self.strides[2], name=name + '_conv_3',
-                        padding=[[0, 0], [0, 0], self.encoder_padding[2], [0, 0]])(out_2)
+        # conv_3 = Conv2D(self.filter_size[2], self.kernel_size[2], self.strides[2], name=name + '_conv_3',
+        #                padding=[[0, 0], [0, 0], self.encoder_padding[2], [0, 0]])(out_2)
+        padded_3 = tf.pad(out_2, [[0, 0], [0, 0], self.encoder_padding[2], [0, 0]], "CONSTANT")
+        conv_3 = Conv2D(self.filter_size[2], self.kernel_size[2], self.strides[2], name=name + '_conv_3')(padded_3)
         bn_3 = BatchNormalization(name=name + '_bn_3')(conv_3)
         out_3 = PReLU(shared_axes=[1, 2])(bn_3)
 
-        conv_4 = Conv2D(self.filter_size[3], self.kernel_size[3], self.strides[3], name=name + '_conv_4',
-                        padding=[[0, 0], [0, 0], self.encoder_padding[3], [0, 0]])(out_3)
+        # conv_4 = Conv2D(self.filter_size[3], self.kernel_size[3], self.strides[3], name=name + '_conv_4',
+        #                padding=[[0, 0], [0, 0], self.encoder_padding[3], [0, 0]])(out_3)
+        padded_4 = tf.pad(out_3, [[0, 0], [0, 0], self.encoder_padding[3], [0, 0]], "CONSTANT")
+        conv_4 = Conv2D(self.filter_size[3], self.kernel_size[3], self.strides[3], name=name + '_conv_4')(padded_4)
         bn_4 = BatchNormalization(name=name + '_bn_4')(conv_4)
         out_4 = PReLU(shared_axes=[1, 2])(bn_4)
 
-        conv_5 = Conv2D(self.filter_size[4], self.kernel_size[4], self.strides[4], name=name + '_conv_5',
-                        padding=[[0, 0], [0, 0], self.encoder_padding[4], [0, 0]])(out_4)
+        # conv_5 = Conv2D(self.filter_size[4], self.kernel_size[4], self.strides[4], name=name + '_conv_5',
+        #                padding=[[0, 0], [0, 0], self.encoder_padding[4], [0, 0]])(out_4)
+        padded_5 = tf.pad(out_4, [[0, 0], [0, 0], self.encoder_padding[4], [0, 0]], "CONSTANT")
+        conv_5 = Conv2D(self.filter_size[4], self.kernel_size[4], self.strides[4], name=name + '_conv_5')(padded_5)
         bn_5 = BatchNormalization(name=name + '_bn_5')(conv_5)
         out_5 = PReLU(shared_axes=[1, 2])(bn_5)
 

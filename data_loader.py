@@ -180,7 +180,7 @@ class data_generator():
         for wav in valid_wavs:
             valid_N_samples += round(sf.info(wav).duration * self.fs)
 
-        temp_train = np.zeros(train_N_samples, dtype='int16')
+        temp_train = np.zeros(train_N_samples, dtype='float64')
         N_samples = train_N_samples // self.L
         begin = 0
         print('prepare clean data...\n')
@@ -195,7 +195,7 @@ class data_generator():
 
         del temp_train
 
-        temp_valid = np.zeros(valid_N_samples, dtype='int16')
+        temp_valid = np.zeros(valid_N_samples, dtype='float64')
         N_samples = valid_N_samples // self.L
 
         begin = 0
@@ -217,7 +217,7 @@ class data_generator():
             train_data = self.valid_data
         else:
             train_data = self.train_data
-
+        print(type(train_data), train_data)
         N_batch = len(train_data) // batch_size
         batch_num = 0
 
@@ -253,7 +253,7 @@ class data_generator():
                     sf.read(os.path.join(self.noise_dir, noise_f), dtype='float32', start=Begin_N,
                             stop=Begin_N + self.L)[0]
                 # high pass filtering
-                clean_s = add_pyreverb(clean_s, fir)
+
                 # spectrum augmentation
 
                 if np.random.rand() < self.spec_aug_rate:
@@ -278,7 +278,7 @@ class data_generator():
             if batch_num == N_batch:
                 batch_num = 0
 
-                #if self.use_cross_valid:
+                # if self.use_cross_valid:
                 #    self.train_list, self.validation_list = self.generating_train_validation(self.train_length)
                 if validation:
                     train_data = self.valid_data
