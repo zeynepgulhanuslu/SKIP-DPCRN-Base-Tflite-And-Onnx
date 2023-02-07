@@ -180,7 +180,7 @@ class data_generator():
         for wav in valid_wavs:
             valid_N_samples += round(sf.info(wav).duration * self.fs)
 
-        temp_train = np.zeros(train_N_samples, dtype='float64')
+        temp_train = np.zeros(train_N_samples, dtype='float32')
         N_samples = train_N_samples // self.L
         begin = 0
         print('prepare clean data...\n')
