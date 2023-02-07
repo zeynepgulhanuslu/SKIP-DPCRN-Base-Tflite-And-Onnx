@@ -40,4 +40,4 @@ database:
     SNR: [0,20]
     reverb_rate: 0.5
     spec_aug_rate: 0.3
-    data_path: '/ORTAK/zeynep/data/bipmeet-nc/sau-fsd-250k-v1/dpcrn-data'
+    data_path: '/ORTAK/zeynep/data/bipmeet-nc/sau-fsd-250k-v1/dpcrn_data'
